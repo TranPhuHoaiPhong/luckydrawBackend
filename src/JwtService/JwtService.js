@@ -10,7 +10,7 @@ export const genneralAccessToken = (payload) => {
       ...payload, // payload chứa id, role
     },
     process.env.ACCESS_TOKEN, // chú ý: sửa lỗi chính tả "ACCCESS_TOKEN" → "ACCESS_TOKEN"
-    { expiresIn: "30s" }
+    { expiresIn: "1000s" }
   );
   return access_Token;
 };

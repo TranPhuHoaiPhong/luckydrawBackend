@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, unique: true },  // hashed
   role: { type: String, enum: ["admin","player"], default: "player" },
   avatarUrl: String,
-  wallet: String,
+  // wallet: String,
   spinsLeft: { type: Number, default: 1 },
   createdAt: { type: Date, default: Date.now }
 })

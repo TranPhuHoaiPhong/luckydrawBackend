@@ -1,4 +1,5 @@
 import { genneralAccessToken, genneralRefreshToken } from "../JwtService/JwtService.js"
+import Admin from "../models/Admin.js"
 import User from "../models/User.js"
 import bcrypt from "bcrypt"
 
@@ -23,6 +24,19 @@ class UserService {
         });
 
         const savedUser = await newUser.save()
+
+        console.log(savedUser)
+
+        const adminConfig = await Admin.findOne();
+        if (!adminConfig) {
+        await Admin.create({
+            maxSpinsPerUser: 100,
+            spinEnabled: true,
+            startTime: new Date(Date.now() - 1000),
+            endTime: new Date(Date.now() + 24*60*60*1000)
+        });
+        console.log("Admin config created for new admin user");
+        }
 
         return {
             message: "User created successfully",
