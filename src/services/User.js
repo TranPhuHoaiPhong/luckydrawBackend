@@ -67,25 +67,35 @@ class UserService {
         }
     }
 
-    async updateUser(id, data) {
-        const updateData = {...data}
+        async updateUser(id, data, file) {
+        const updateData = { ...data };
 
-        if( data.password) {
-            updateData.password = await bcrypt.hash(data.password, 10)
+        // Hash password nếu có
+        if (data.password) {
+        updateData.password = await bcrypt.hash(data.password, 10);
         }
 
-        const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true }).select("-password")
+        // Lưu file avatar nếu có
+        if (file) {
+        updateData.avatarUrl = `/assets/images/prizes/${file.filename}`;
+        }
 
-        if( !updatedUser) {
-            const error = new Error("User not found")
-            error.code = 400
-            throw error
+        const updatedUser = await User.findByIdAndUpdate(
+        id,
+        updateData,
+        { new: true }
+        ).select("-password");
+
+        if (!updatedUser) {
+        const error = new Error("User not found");
+        error.code = 400;
+        throw error;
         }
 
         return {
-            message: "User updated successfully",
-            user: updatedUser
-        }
+        message: "User updated successfully",
+        user: updatedUser,
+        };
     }
 
     async deleteUser(id) {

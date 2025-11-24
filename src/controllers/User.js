@@ -47,16 +47,22 @@ class UserController {
         }
     }
     async updateUser(req, res) {
-        try {
-            const result = await UserService.updateUser(req.params.id, req.body)
-            res.status(201).json(result)
-        } catch (error) {
-            if( error.code === 400) {
-                return res.status(400).json({ message: error.message });
-            }
-            res.status(500).json({ error: error.message})
-        }
+    try {
+      const userId = req.params.id;
+      const data = req.body; // dữ liệu gửi lên (fullName, password, ...)
+      const file = req.file; // multer sẽ gắn file ở đây nếu upload
+
+      // Gọi service, truyền cả data + file
+      const result = await UserService.updateUser(userId, data, file);
+
+      res.status(200).json(result);
+    } catch (error) {
+      if (error.code === 400) {
+        return res.status(400).json({ message: error.message });
+      }
+      res.status(500).json({ error: error.message });
     }
+  }
     async deleteUser(req, res) {
         try {
             const result = await UserService.updateUser(req.params.id)
