@@ -77,8 +77,9 @@ class UserService {
 
         // Lưu file avatar nếu có
         if (file) {
-        updateData.avatarUrl = `/assets/images/prizes/${file.filename}`;
-        }
+  updateData.avatarUrl = `/assets/images/prizes/${file.filename}`;
+}
+
 
         const updatedUser = await User.findByIdAndUpdate(
         id,
